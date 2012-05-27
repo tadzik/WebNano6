@@ -1,5 +1,5 @@
-class MyApp {
-    method psgi_app {
-        sub ($env) { [ 404, {}, "" ] }
-    }
+use WebNano6;
+
+class MyApp is WebNano6 {
 }
+
