@@ -5,11 +5,13 @@ class PSGI::Request {
 }
 
 sub get($foo) is export {
-    PSGI::Request.new(REQUEST_METHOD => 'GET', REQUEST_URI => $foo)
+    my $path_info = $foo.subst( /^\//, '' );
+    PSGI::Request.new( env => { REQUEST_METHOD => 'GET', REQUEST_URI => $foo, PATH_INFO => $path_info } )
 }
 
 sub post($foo) is export {
-    PSGI::Request.new(REQUEST_METHOD => 'POST', REQUEST_URI => $foo)
+    my $path_info = $foo.subst( /^\//, '' );
+    PSGI::Request.new( env => { REQUEST_METHOD => 'POST', REQUEST_URI => $foo, PATH_INFO => $path_info } )
 }
 
 class PSGI::Response {

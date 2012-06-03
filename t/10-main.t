@@ -12,10 +12,9 @@ test_psgi(
     app => MyApp.new.psgi_app, 
     client => sub ($cb) {
         my $res = $cb.(get "/");
-        like( $res.content, rx/This is the home page/ );
+        is( $res.content, 'This is the home page' );
         $res = $cb.(get "/mapped url");
-        like( $res.content, rx/This is the mapped url page/ );
-
+        is( $res.content, 'This is the mapped url page' );
         $res = $cb.(get "/postonly");
         is( $res.code, 404 , 'get for a post controller' );
         $res = $cb.(post "/postonly");

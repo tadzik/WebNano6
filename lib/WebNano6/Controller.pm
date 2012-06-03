@@ -6,6 +6,8 @@ class WebNano6::Controller {
 
     has %.env;
 
+    has $.url_map;
+
     method search_subcontrollers { False }
 
     method handle( %args ) {
@@ -20,11 +22,26 @@ class WebNano6::Controller {
         my $name = shift $.path;
         $name = 'index' if !defined( $name ) || !$name.chars;
         my $method = %.env<REQUEST_METHOD>.uc;
+        my $action;
+        if ( my $map = self.url_map ) {
+            if ( $map.isa( Hash ) ) {
+                $action = $map{$name};
+            }
+            if ( $map.isa( Array ) ) {
+                $action = $name;
+            }
+            if ( $action.isa( Str ) && self.^find_method( $action ) ) {
+                return self."$action"();
+            }
+        }
         if ( $method eq 'GET' || $method eq 'POST' ) {
-            my $action = $name ~ '_' ~ $method;
+            $action = $name ~ '_' ~ $method;
             if ( self.^find_method( $action ) ) {
                 return self."$action"();
             }
+        }
+        if ( $action = self.^find_method( $name ~ '_action' ) ) {
+            return self."$action"();
         }
     }
 }

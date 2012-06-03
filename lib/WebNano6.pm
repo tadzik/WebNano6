@@ -5,7 +5,7 @@ class WebNano6 {
     method controller_search_path { self.WHAT.perl };
 
     method psgi_app {
-        sub ($env) { [ 404, {}, "" ] }
+        sub ( %env ) { self.handle( %env ) }
     }
     method find_nested( $name_part ){
         return if $name_part ~~ /\./;
