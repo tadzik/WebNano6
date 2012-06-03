@@ -38,6 +38,9 @@ class WebNano6 {
                 self_url => '/',
             }
         );
+        if ( ! $out ) {
+            return [ 404, [ 'Content-type' => 'text/plain' ], 'Not Found' ];
+        }
         return [ 200, [ 'Content-Type' => 'text/html' ], $out ];
     }
 }

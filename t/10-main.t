@@ -18,7 +18,7 @@ test_psgi(
         $res = $cb.(get "/postonly");
         is( $res.code, 404 , 'get for a post controller' );
         $res = $cb.(post "/postonly");
-        like( $res.content, rx/This is a method with _post postfix/ );
+        is( $res.content, 'This is a method with _post postfix', 'POST only' );
 
         $res = $cb.(get "NestedController/some_method");
         like( $res.content, rx/This is a method with _action postfix/ );

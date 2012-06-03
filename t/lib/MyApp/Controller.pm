@@ -10,6 +10,8 @@ class MyApp::Controller is WebNano6::Controller {
 
     method mapped_url { 'This is the mapped url page' }
 
+    method postonly_POST { 'This is a method with _post postfix' }
+
 }
 
 

@@ -43,6 +43,7 @@ class WebNano6::Controller {
         if ( $action = self.^find_method( $name ~ '_action' ) ) {
             return self."$action"();
         }
+        return;
     }
 }
 
