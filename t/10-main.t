@@ -21,9 +21,10 @@ test_psgi(
         is( $res.content, 'This is a method with _post postfix', 'POST only' );
 
         $res = $cb.(get "NestedController/some_method");
-        like( $res.content, rx/This is a method with _action postfix/ );
+        is( $res.content, 'This is a method with _action postfix' );
         $res = $cb.(get "NestedController/safe_method");
-        like( $res.content, rx/This is the safe_method page/ );
+        is( $res.content, 'This is the safe_method page' );
+        exit;
         $res = $cb.(get "NestedController/with_template");
         like( $res.content, rx/This is a NestedController page rendered with a template/ );
         $res = $cb.(get "NestedController/self_url");

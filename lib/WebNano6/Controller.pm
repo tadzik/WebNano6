@@ -1,4 +1,6 @@
-class WebNano6::Controller {
+use WebNano6::FindController;
+
+class WebNano6::Controller does WebNano6::FindController {
 
     has @.path;
 
@@ -7,6 +9,10 @@ class WebNano6::Controller {
     has %.env;
 
     has $.url_map;
+
+    has $.app;
+
+    has $.self_url;
 
     method search_subcontrollers { False }
 
@@ -19,7 +25,7 @@ class WebNano6::Controller {
     }
 
     method local_dispatch {
-        my $name = shift $.path;
+        my $first = my $name = shift $.path;
         $name = 'index' if !defined( $name ) || !$name.chars;
         my $method = %.env<REQUEST_METHOD>.uc;
         my $action;
@@ -43,6 +49,20 @@ class WebNano6::Controller {
         if ( $action = self.^find_method( $name ~ '_action' ) ) {
             return self."$action"();
         }
+        if ( $first.isa( Str ) ) {
+            my $c_class = self.find_nested( $first );
+            if ( $c_class ) {
+                return ::($c_class).handle(
+                    {   
+                        path => $.path,
+                        app => $.app,
+                        env => %.env,
+                        self_url => $.self_url ~ $first,
+                    }
+                );
+            }
+        }
+
         return;
     }
 }
