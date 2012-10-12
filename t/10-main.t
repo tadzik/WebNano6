@@ -24,13 +24,13 @@ test_psgi(
         is( $res.content, 'This is a method with _action postfix' );
         $res = $cb.(get "NestedController/safe_method");
         is( $res.content, 'This is the safe_method page' );
+        $res = $cb.(get "NestedController/self_url");
+        is( $res.content, '/NestedController/', 'self_url' );
+        $res = $cb.(get "NestedController/env_check");
+        is( $res.content, 'env present', 'env_check' );
         exit;
         $res = $cb.(get "NestedController/with_template");
         like( $res.content, rx/This is a NestedController page rendered with a template/ );
-        $res = $cb.(get "NestedController/self_url");
-        like( $res.content, rx{^'/NestedController/'$}, 'self_url' );
-        $res = $cb.(get "NestedController/env_check");
-        like( $res.content, rx{^env present$}, 'env_check' );
 
         $res = $cb.(get "NestedController2/some_method");
         like( $res.content, rx/'This is a method with _action postfix in MyApp::Controller::NestedController2'/ );

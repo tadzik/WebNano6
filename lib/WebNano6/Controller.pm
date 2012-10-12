@@ -57,7 +57,7 @@ class WebNano6::Controller does WebNano6::FindController {
                         path => $.path,
                         app => $.app,
                         env => %.env,
-                        self_url => $.self_url ~ $first,
+                        self_url => $.self_url ~ $first ~ '/',
                     }
                 );
             }
