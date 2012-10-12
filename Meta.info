@@ -1,0 +1,10 @@
+{
+  "name"        : "WebNano6",
+  "version"     : "0.01",
+  "description" : "WebNano port to Rakudo Perl 6",
+  "depends"     : [ "Template::Mojo" ],
+  "author"      : "Tadeusz Sośnierz",
+  "author"      : "Zbigniew Łukasiak",
+  "source-url"  : "git://github.com/tadzik/WebNano6.git",
+}
+
